@@ -3,25 +3,123 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>192-168-0-1.de | Connectivity & Infrastructure</title>
+    <title>192.168.0.1 - Netzwerk lernen</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      body { background-color: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
-      .github-btn { background-color: #21262d; border: 1px solid rgba(240, 246, 252, 0.1); transition: background-color 0.2s; }
-      .github-btn:hover { background-color: #30363d; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      }
     </style>
   </head>
-  <body class="flex flex-col min-h-screen">
-    <main class="flex-grow flex flex-col items-center justify-center px-4 text-center">
-      <h1 class="text-5xl font-bold mb-6 text-white tracking-tight">192.0.0.1</h1>
-      <p class="text-xl mb-8 text-gray-400">Digitale Infrastruktur, Vernetzung und Open-Source Experimente.</p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/192-0-0-1" class="github-btn text-white px-6 py-3 rounded-md flex items-center gap-3"><svg height="24" viewBox="0 0 16 16" version="1.1" width="24" fill="currentColor"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>Wir auf GitHub</a>
-        <a href="https://github.com/192-0-0-1/192-168-0-1.de/edit/main/index.html" class="github-btn text-white px-6 py-3 rounded-md flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" /></svg>Diese Seite bearbeiten</a>
-      </div>
-    </main>
-    <footer class="p-8 text-center text-gray-500 text-sm">
-      <p>&copy; 2026 192-168-0-1.de Project</p>
-    </footer>
+  <body class="bg-gray-50 text-gray-900">
+    <div class="max-w-3xl mx-auto px-4 py-12">
+      <!-- Header -->
+      <header class="mb-12">
+        <h1 class="text-4xl font-bold mb-3">192.168.0.1</h1>
+        <p class="text-xl text-gray-600">Netzwerktechnik verstehen und lernen</p>
+      </header>
+
+      <!-- Intro -->
+      <section class="mb-12">
+        <p class="text-lg leading-relaxed mb-4">
+          Willkommen! Diese Seite hilft dir dabei, Netzwerktechnik von Grund auf zu verstehen. 
+          Ob IP-Adressen, Routing, DNS oder Subnetting – hier findest du einfache Erklärungen 
+          und praktische Beispiele.
+        </p>
+        <p class="text-lg leading-relaxed text-gray-600">
+          Alle Inhalte sind Open Source und werden kontinuierlich erweitert.
+        </p>
+      </section>
+
+      <!-- Topics -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold mb-6">Themen</h2>
+        
+        <div class="space-y-6">
+          <div class="bg-white p-6 rounded-lg border border-gray-200">
+            <h3 class="text-xl font-semibold mb-2">IP-Adressen & Subnetting</h3>
+            <p class="text-gray-600 mb-3">
+              Verstehe wie IP-Adressen aufgebaut sind, was Subnetze sind und wie CIDR-Notation funktioniert.
+            </p>
+            <span class="text-sm text-blue-600">In Arbeit</span>
+          </div>
+
+          <div class="bg-white p-6 rounded-lg border border-gray-200">
+            <h3 class="text-xl font-semibold mb-2">DNS & Namensauflösung</h3>
+            <p class="text-gray-600 mb-3">
+              Wie werden Domain-Namen in IP-Adressen übersetzt? Lerne die Grundlagen des Domain Name Systems.
+            </p>
+            <span class="text-sm text-blue-600">In Arbeit</span>
+          </div>
+
+          <div class="bg-white p-6 rounded-lg border border-gray-200">
+            <h3 class="text-xl font-semibold mb-2">Routing & Switching</h3>
+            <p class="text-gray-600 mb-3">
+              Erfahre wie Datenpakete ihren Weg durch Netzwerke finden und was Router und Switches dabei machen.
+            </p>
+            <span class="text-sm text-blue-600">In Arbeit</span>
+          </div>
+
+          <div class="bg-white p-6 rounded-lg border border-gray-200">
+            <h3 class="text-xl font-semibold mb-2">Protokolle (TCP/IP, HTTP, etc.)</h3>
+            <p class="text-gray-600 mb-3">
+              Die wichtigsten Netzwerkprotokolle einfach erklärt – vom OSI-Modell bis zu modernen Webprotokollen.
+            </p>
+            <span class="text-sm text-blue-600">In Arbeit</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="mb-12 bg-blue-50 p-8 rounded-lg border border-blue-100">
+        <h2 class="text-2xl font-bold mb-3">Mitmachen</h2>
+        <p class="text-gray-700 mb-4">
+          Dieses Projekt ist Open Source. Du kannst Inhalte verbessern, Fehler melden 
+          oder neue Themen vorschlagen.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a 
+            href="https://github.com/192-0-0-1" 
+            class="inline-flex items-center gap-2 bg-gray-900 text-white px-5 py-2.5 rounded-md hover:bg-gray-800 transition"
+          >
+            <svg height="20" viewBox="0 0 16 16" version="1.1" width="20" fill="currentColor">
+              <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+            </svg>
+            GitHub
+          </a>
+          <a 
+            href="https://github.com/192-0-0-1/192-168-0-1.de/edit/main/index.html" 
+            class="inline-flex items-center gap-2 bg-white text-gray-900 px-5 py-2.5 rounded-md border border-gray-300 hover:bg-gray-50 transition"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="20" height="20">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+            </svg>
+            Seite bearbeiten
+          </a>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">Über dieses Projekt</h2>
+        <p class="text-gray-700 leading-relaxed mb-3">
+          192.168.0.1 ist eine Lernplattform für Netzwerktechnik auf Deutsch. Unser Ziel ist es, 
+          komplexe Themen verständlich zu erklären und eine Community aufzubauen, die sich 
+          gegenseitig beim Lernen unterstützt.
+        </p>
+        <p class="text-gray-700 leading-relaxed">
+          Die Inhalte entstehen in Zusammenarbeit mit der Community und sind für alle 
+          frei zugänglich.
+        </p>
+      </section>
+
+      <!-- Footer -->
+      <footer class="pt-8 border-t border-gray-200 text-sm text-gray-600">
+        <p class="mb-2">&copy; 2026 192-168-0-1.de</p>
+        <p>
+          <a href="https://fternis.de/imprint" class="text-blue-600 hover:underline">Impressum</a>
+        </p>
+      </footer>
+    </div>
   </body>
 </html>
