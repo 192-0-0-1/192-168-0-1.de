@@ -346,5 +346,5 @@ Bestimme, ob folgende IP-Adressen im gleichen Subnetz liegen:
 ---
 
 **Letzte Aktualisierung:** Januar 2026  
-**Lizenz:** Open Source (zum GitHub-Repository hinzufügen)  
+**Lizenz:** Apache v2.0 [LICENSE](https://github.com/192-0-0-1/192-168-0-1.de/blob/main/LICENSE)
 **Beiträge willkommen!**
