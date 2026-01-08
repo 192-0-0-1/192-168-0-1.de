@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wissensdatenbank - 192.168.0.1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      }
+      
+      /* Sidebar styles */
+      .sidebar {
+        position: sticky;
+        top: 20px;
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+      }
+      
+      .sidebar::-webkit-scrollbar {
+        width: 6px;
+      }
+      
+      .sidebar::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      
+      .sidebar::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 3px;
+      }
+      
+      .sidebar::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+      
+      /* Markdown content styles */
+      #content h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #e5e7eb;
+        padding-bottom: 0.5rem;
+      }
+      
+      #content h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: #1f2937;
+      }
+      
+      #content h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+        color: #374151;
+      }
+      
+      #content p {
+        margin-bottom: 1rem;
+        line-height: 1.75;
+        color: #4b5563;
+      }
+      
+      #content ul, #content ol {
+        margin-bottom: 1rem;
+        padding-left: 2rem;
+      }
+      
+      #content li {
+        margin-bottom: 0.5rem;
+        line-height: 1.75;
+        color: #4b5563;
+      }
+      
+      #content code {
+        background-color: #f3f4f6;
+        padding: 0.2rem 0.4rem;
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        font-family: 'Courier New', monospace;
+        color: #dc2626;
+      }
+      
+      #content pre {
+        background-color: #1f2937;
+        color: #f9fafb;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        overflow-x: auto;
+        margin-bottom: 1rem;
+      }
+      
+      #content pre code {
+        background-color: transparent;
+        padding: 0;
+        color: #f9fafb;
+      }
+      
+      #content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1rem;
+      }
+      
+      #content table th,
+      #content table td {
+        border: 1px solid #e5e7eb;
+        padding: 0.75rem;
+        text-align: left;
+      }
+      
+      #content table th {
+        background-color: #f9fafb;
+        font-weight: 600;
+      }
+      
+      #content blockquote {
+        border-left: 4px solid #3b82f6;
+        padding-left: 1rem;
+        margin: 1rem 0;
+        color: #6b7280;
+        font-style: italic;
+      }
+      
+      #content hr {
+        border: 0;
+        border-top: 2px solid #e5e7eb;
+        margin: 2rem 0;
+      }
+      
+      #content a {
+        color: #2563eb;
+        text-decoration: none;
+      }
+      
+      #content a:hover {
+        text-decoration: underline;
+      }
+      
+      /* Table of contents styles */
+      .toc {
+        background-color: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+      }
+      
+      .toc h2 {
+        font-size: 1.25rem !important;
+        font-weight: 600;
+        margin-top: 0 !important;
+        margin-bottom: 1rem !important;
+        border-bottom: none !important;
+        padding-bottom: 0 !important;
+      }
+      
+      .toc ul {
+        list-style: none;
+        padding-left: 0;
+      }
+      
+      .toc li {
+        margin-bottom: 0.5rem;
+      }
+      
+      .toc a {
+        color: #2563eb;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      
+      .toc a:hover {
+        color: #1d4ed8;
+        text-decoration: underline;
+      }
+      
+      #content strong {
+        font-weight: 600;
+        color: #1f2937;
+      }
+      
+      .nav-item {
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      
+      .nav-item:hover {
+        background-color: #f3f4f6;
+      }
+      
+      .nav-item.active {
+        background-color: #dbeafe;
+        border-left: 3px solid #2563eb;
+        font-weight: 600;
+      }
+      
+      .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid #f3f4f6;
+        border-top-color: #2563eb;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      
+      /* Mobile menu toggle */
+      .mobile-menu-btn {
+        display: none;
+      }
+      
+      @media (max-width: 768px) {
+        .mobile-menu-btn {
+          display: block;
+        }
+        
+        .sidebar {
+          position: fixed;
+          left: -100%;
+          top: 0;
+          width: 80%;
+          max-width: 300px;
+          height: 100vh;
+          background: white;
+          z-index: 50;
+          transition: left 0.3s;
+          box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar.open {
+          left: 0;
+        }
+        
+        .overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.5);
+          z-index: 40;
+          display: none;
+        }
+        
+        .overlay.open {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-900">
+    <!-- Mobile menu overlay -->
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 py-6">
+      <!-- Header -->
+      <header class="mb-8">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <a href="index.html" class="text-2xl font-bold text-gray-900 hover:text-blue-600 transition">
+              192.168.0.1
+            </a>
+            <p class="text-gray-600 mt-1">Wissensdatenbank</p>
+          </div>
+          <button class="mobile-menu-btn bg-white px-4 py-2 rounded-md border border-gray-300" id="mobileMenuBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="flex gap-8">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar w-64 bg-white p-6 rounded-lg border border-gray-200" id="sidebar">
+          <div class="flex justify-between items-center mb-4 md:hidden">
+            <h2 class="text-lg font-semibold">Navigation</h2>
+            <button id="closeSidebarBtn" class="text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          
+          <h2 class="text-lg font-semibold mb-4 hidden md:block">Themen</h2>
+          <nav id="navigation">
+            <div class="text-center py-8">
+              <div class="loading mx-auto"></div>
+              <p class="text-sm text-gray-500 mt-2">Lade Inhalte...</p>
+            </div>
+          </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1">
+          <div class="bg-white p-8 rounded-lg border border-gray-200">
+            <div id="content">
+              <div class="text-center py-16">
+                <div class="loading mx-auto mb-4"></div>
+                <p class="text-gray-500">Lade Inhalt...</p>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <!-- Footer -->
+      <footer class="mt-12 pt-8 border-t border-gray-200 text-sm text-gray-600">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+              <p class="mb-2">&copy; 2026 192-168-0-1.de</p>
+              <p>
+                <a href="https://fternis.de/imprint" class="text-blue-600 hover:underline">Impressum</a>
+              </p>
+            </div>
+            <div class="flex gap-4">
+              <a href="index.html" class="text-blue-600 hover:underline">Startseite</a>
+              <a href="https://github.com/192-0-0-1" class="text-blue-600 hover:underline">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // Knowledge base files configuration
+      const knowledgeFiles = [
+        {
+          id: 'ip-subnetting',
+          title: 'IP-Adressen & Subnetting',
+          file: 'knowledgebase/ip-subnetting.md'
+        },
+        {
+          id: 'dns',
+          title: 'DNS & Namensauflösung',
+          file: 'knowledgebase/dns.md'
+        },
+        {
+          id: 'routing',
+          title: 'Routing & Switching',
+          file: 'knowledgebase/routing.md'
+        },
+        {
+          id: 'protocols',
+          title: 'Protokolle (TCP/IP, HTTP)',
+          file: 'knowledgebase/protocols.md'
+        }
+      ];
+
+      let currentFile = null;
+
+      // Initialize
+      document.addEventListener('DOMContentLoaded', () => {
+        renderNavigation();
+        loadFromURL();
+        setupMobileMenu();
+      });
+
+      // Render navigation menu
+      function renderNavigation() {
+        const nav = document.getElementById('navigation');
+        nav.innerHTML = knowledgeFiles.map(file => `
+          <div class="nav-item p-3 rounded-md mb-2" data-file="${file.id}">
+            ${file.title}
+          </div>
+        `).join('');
+
+        // Add click handlers
+        document.querySelectorAll('.nav-item').forEach(item => {
+          item.addEventListener('click', () => {
+            const fileId = item.dataset.file;
+            loadContent(fileId);
+            closeMobileMenu();
+          });
+        });
+      }
+
+      // Load content from markdown file
+      async function loadContent(fileId) {
+        const file = knowledgeFiles.find(f => f.id === fileId);
+        if (!file) return;
+
+        currentFile = fileId;
+        updateURL(fileId);
+        updateActiveNav(fileId);
+
+        const contentDiv = document.getElementById('content');
+        contentDiv.innerHTML = '<div class="text-center py-16"><div class="loading mx-auto mb-4"></div><p class="text-gray-500">Lade Inhalt...</p></div>';
+
+        try {
+          const response = await fetch(file.file);
+          if (!response.ok) {
+            throw new Error('Datei nicht gefunden');
+          }
+          
+          const markdown = await response.text();
+          const html = marked.parse(markdown);
+          contentDiv.innerHTML = html;
+          
+          // Generate functional table of contents
+          generateTableOfContents();
+          
+          // Scroll to top
+          window.scrollTo(0, 0);
+        } catch (error) {
+          contentDiv.innerHTML = `
+            <div class="text-center py-16">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 mx-auto text-gray-400 mb-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+              </svg>
+              <h2 class="text-xl font-semibold mb-2">Inhalt noch nicht verfügbar</h2>
+              <p class="text-gray-600 mb-4">Diese Seite befindet sich noch im Aufbau.</p>
+              <p class="text-sm text-gray-500">Datei: ${file.file}</p>
+              <a href="index.html" class="inline-block mt-4 text-blue-600 hover:underline">Zurück zur Startseite</a>
+            </div>
+          `;
+        }
+      }
+
+      // Generate functional table of contents
+      function generateTableOfContents() {
+        const content = document.getElementById('content');
+        const headings = content.querySelectorAll('h2, h3');
+        
+        if (headings.length === 0) return;
+
+        // Find the TOC section (Inhaltsverzeichnis)
+        const tocHeading = Array.from(content.querySelectorAll('h2')).find(
+          h => h.textContent.includes('Inhaltsverzeichnis')
+        );
+        
+        if (!tocHeading) return;
+
+        // Get the list after the TOC heading
+        let tocList = tocHeading.nextElementSibling;
+        while (tocList && tocList.tagName !== 'OL' && tocList.tagName !== 'UL') {
+          tocList = tocList.nextElementSibling;
+        }
+        
+        if (!tocList) return;
+
+        // Wrap TOC in styled container
+        const tocContainer = document.createElement('div');
+        tocContainer.className = 'toc';
+        tocHeading.parentNode.insertBefore(tocContainer, tocHeading);
+        tocContainer.appendChild(tocHeading);
+        tocContainer.appendChild(tocList);
+
+        // Get all TOC links with their href attributes
+        const tocLinks = tocList.querySelectorAll('a[href^="#"]');
+
+        // First, assign IDs to all headings based on existing TOC links
+        tocLinks.forEach(link => {
+          const hash = link.getAttribute('href').substring(1); // Remove the #
+          
+          // Find matching heading by text content
+          const headingText = link.textContent.trim();
+          const matchingHeading = Array.from(headings).find(h => {
+            return h.textContent.trim() === headingText && h !== tocHeading;
+          });
+          
+          if (matchingHeading) {
+            matchingHeading.id = hash;
+            
+            // Add smooth scroll behavior
+            link.addEventListener('click', (e) => {
+              e.preventDefault();
+              matchingHeading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              
+              // Update URL hash
+              const url = new URL(window.location);
+              url.hash = hash;
+              history.pushState(null, null, url);
+            });
+          }
+        });
+
+        // Handle direct hash links on page load
+        if (window.location.hash) {
+          setTimeout(() => {
+            const target = document.querySelector(window.location.hash);
+            if (target) {
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 100);
+        }
+      }
+
+      // Update active navigation item
+      function updateActiveNav(fileId) {
+        document.querySelectorAll('.nav-item').forEach(item => {
+          item.classList.remove('active');
+          if (item.dataset.file === fileId) {
+            item.classList.add('active');
+          }
+        });
+      }
+
+      // URL management
+      function updateURL(fileId) {
+        const url = new URL(window.location);
+        url.searchParams.set('topic', fileId);
+        window.history.pushState({}, '', url);
+      }
+
+      function loadFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        const topic = params.get('topic');
+        
+        if (topic && knowledgeFiles.find(f => f.id === topic)) {
+          loadContent(topic);
+        } else {
+          // Load first file by default
+          loadContent(knowledgeFiles[0].id);
+        }
+      }
+
+      // Handle browser back/forward
+      window.addEventListener('popstate', loadFromURL);
+
+      // Mobile menu functionality
+      function setupMobileMenu() {
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        mobileMenuBtn.addEventListener('click', () => {
+          sidebar.classList.add('open');
+          overlay.classList.add('open');
+        });
+
+        closeSidebarBtn.addEventListener('click', closeMobileMenu);
+        overlay.addEventListener('click', closeMobileMenu);
+      }
+
+      function closeMobileMenu() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+      }
+    </script>
+  </body>
+</html>
